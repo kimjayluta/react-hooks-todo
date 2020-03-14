@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 // Function that Prints the Todo list.
-function Todo({ todo, index, completeTodo, deleteTodo}){
+function Todo({ todo, index, completeTodo, removeTodo}){
 	return (
 		<div 
 			style={{textDecoration: todo.isCompleted 	? 'line-through' : ''}} 
@@ -10,7 +10,7 @@ function Todo({ todo, index, completeTodo, deleteTodo}){
 			{todo.text}
 			<div>
 				<button onClick={() => completeTodo(index)}>Complete</button>
-				<button onClick={() => deleteTodo(index)}>x</button>
+				<button onClick={() => removeTodo(index)}>x</button>
 			</div>
 		</div>
 	);
@@ -68,11 +68,23 @@ function App() {
 		setTodos(newTodos);
 	}
 
+	const removeTodo = index => {
+		const newTodos = [...todos];
+		newTodos.splice(index, 1);
+		setTodos(newTodos);
+	}
+
 	return (
 		<div className="app">
 			<div className="todo-list">
 				{todos.map((todo, index) => (
-					<Todo key={index} index={index} todo={todo} completeTodo={completeTodo} />
+					<Todo 
+						key={index}
+						index={index}
+						todo={todo}
+						completeTodo={completeTodo}
+						removeTodo={removeTodo}
+					/>
 				))}
 				{/* Pag nag enter ang user ning Todo e cacall ang function na AddTodo */}
 				<TodoForm addTodo={addTodo}/>
